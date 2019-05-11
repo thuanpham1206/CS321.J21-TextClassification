@@ -1,6 +1,5 @@
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
-# from nltk.corpus import stopwords
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import SGDClassifier
 from sklearn.pipeline import Pipeline
@@ -14,17 +13,6 @@ import re
 import os
 import json
 
-class FeatureTransformer(BaseEstimator, TransformerMixin):
-    def __init__(self):
-        self.tokenizer = ViTokenizer
-        self.pos_tagger = ViPosTagger
-
-    def fit(self, *_):
-        return self
-
-    def transform(self, X, y=None, **fit_params):
-        result = X.apply(lambda text: self.tokenizer.tokenize(text))
-        return result
 
 BASE_DIR = os.getcwd().replace("src", "")
 KEYS_2_TAG = {
@@ -100,12 +88,10 @@ def main():
     ])
 
     sgd.fit(sentences_train, tags_train)
-    # print(tags_train, tags_test)
 
     test_data = get_test_data()
     df_test = pd.DataFrame(test_data)
     tag_prediction = sgd.predict(df_test['content'])
-    # print("result: ")
     print(tag_prediction)
 
     # print('accuracy %s' % accuracy_score(tag_prediction, tags_test))
