@@ -6,12 +6,25 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
+from sklearn.base import TransformerMixin, BaseEstimator
+from pyvi import ViTokenizer, ViPosTagger
 
 
 import re
 import os
 import json
 
+class FeatureTransformer(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        self.tokenizer = ViTokenizer
+        self.pos_tagger = ViPosTagger
+
+    def fit(self, *_):
+        return self
+
+    def transform(self, X, y=None, **fit_params):
+        result = X.apply(lambda text: self.tokenizer.tokenize(text))
+        return result
 
 BASE_DIR = os.getcwd().replace("src", "")
 KEYS_2_TAG = {
@@ -51,50 +64,55 @@ def cleaned_text(text):
     return text.replace("\n", "")
 
 
-def get_data():
+def get_test_data():
+    filepath = BASE_DIR + 'raw_data/test_data.json'
+    with open(filepath, 'r') as f:
+        return json.load(f)
+
+def get_train_data(n):
+    filepath = BASE_DIR + 'raw_data/train_data.json'
     data = []
-    filepath = BASE_DIR + 'raw_data/vn_express_data/vn_express.txt'
-    df = pd.read_csv(filepath, names=['text', 'tag'], sep='\t')
-    data.append(df)
+    with open(filepath, 'r') as f:
+        bf = json.load(f)
+        for d in bf[:n]:
+            data.append(d)
+
     return data
 
 
-
 def main():
-    data = get_data()
-    df = pd.concat(data)
+    train_data = get_train_data(1000)
+    df_train = pd.DataFrame(train_data)
     # print(df)
-    sentences = df['text'].values
-    tags = df['tag'].values
-    
+    sentences = df_train['content'].values
+    tags = df_train['category'].values
+    # print(tags)
     sentences_train, sentences_test, tags_train, tags_test = train_test_split(
          sentences, tags, test_size=0.25, random_state=1000
     )
-    vectorizer = CountVectorizer(min_df=0, lowercase=False)
-    vectorizer.fit(sentences_train)
-    # print(vectorizer.transform(sentences_train))
-    # print(vectorizer.transform(sentences_test))
+
 
     sgd = Pipeline([
+        # ('transformer', FeatureTransformer()),
         ('vect', CountVectorizer()),
         ('tfidf', TfidfTransformer()),
         ('clf', SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, random_state=42, max_iter=5, tol=None)),
     ])
 
     sgd.fit(sentences_train, tags_train)
-    print(tags_train, tags_test)
-    tag_prediction = sgd.predict(sentences_test)
-    print('accuracy %s' % accuracy_score(tag_prediction, tags_test))
+    # print(tags_train, tags_test)
 
-    # print(classification_report(tags_test, y_pred,target_names=tags))
+    test_data = get_test_data()
+    df_test = pd.DataFrame(test_data)
+    tag_prediction = sgd.predict(df_test['content'])
+    # print("result: ")
+    print(tag_prediction)
+
+    # print('accuracy %s' % accuracy_score(tag_prediction, tags_test))
+    # print(len(tag_prediction), len(tags_test), len(tags))
+    # print(classification_report(tags_test, tag_prediction,target_names=tags))
 
 
 
 if __name__ == "__main__":
     main()
-
-# vectorizer = CountVectorizer(min_df=0, lowercase=False)
-# sentences = ['John likes ice cream', 'John hates chocolate.']
-# vectorizer.fit(sentences)
-# # print(vectorizer.vocabulary_)
-# print(vectorizer.transform(sentences).toarray())
