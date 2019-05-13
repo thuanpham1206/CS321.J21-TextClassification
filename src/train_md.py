@@ -6,7 +6,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 from sklearn.base import TransformerMixin, BaseEstimator
-from pyvi import ViTokenizer, ViPosTagger
+# from pyvi import ViTokenizer, ViPosTagger
 
 
 import re
@@ -54,13 +54,13 @@ def cleaned_text(text):
 
 def get_test_data():
     filepath = BASE_DIR + 'raw_data/test_data.json'
-    with open(filepath, 'r') as f:
+    with open(filepath, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def get_train_data(n):
     filepath = BASE_DIR + 'raw_data/train_data.json'
     data = []
-    with open(filepath, 'r') as f:
+    with open(filepath, 'r', encoding='utf-8') as f:
         bf = json.load(f)
         for d in bf[:n]:
             data.append(d)
