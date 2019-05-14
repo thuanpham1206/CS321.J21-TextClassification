@@ -15,31 +15,6 @@ import json
 
 
 BASE_DIR = os.getcwd().replace("src", "")
-KEYS_2_TAG = {
-    "1": "kinh doanh",
-    "2": "thời sự",
-    "3": "thế giới",
-    "4": "thể thao",
-    "5": "pháp luật",
-    "6": "giáo dục",
-    "7": "số hóa",
-    "8": "ý kiến",
-    "9": "sức khỏe",
-    "10": "xe"
-}
-TAG_2_KEY = {
-    "kinh doanh": "1",
-    "thời sự": "2",
-    "thế giới": "3",
-    "thể thao": "4",
-    "pháp luật": "5",
-    "giáo dục": "6",
-    "số hóa": "7",
-    "ý kiến": "8",
-    "sức khỏe": "9",
-    "10": "xe"
-}
-
 
 
 stopwords = []
