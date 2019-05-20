@@ -8,15 +8,17 @@ Cài đặt thư viện sk learn: https://scikit-learn.org/stable/install.html
 
 # Update - guideline:
 1. clone/pull code from repository:
-    - git clone: https://github.com/thuanpham1206/CS321.J21-TextClassification
-    - git pull: https://github.com/thuanpham1206/CS321.J21-TextClassification
+    - git clone https://github.com/thuanpham1206/CS321.J21-TextClassification
+    - git pull https://github.com/thuanpham1206/CS321.J21-TextClassification
 
 2. Install package dependencies
     - pip install -r requirements.txt
 
-3. run command
+3. how to run?
     - Make sure you are in the root folder of project
-    - python manage.py {command}
-    - supported commands: train, predict
+    - run the following command: python manage.py {argument}
+    - supported arguments: train, predict
     - example:
         + python manage.py predict
+
+4. Edit test data in test1.txt (copy content from acticles of vnexpress, vietnamnet, ...)
