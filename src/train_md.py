@@ -8,57 +8,21 @@ from sklearn.metrics import classification_report, accuracy_score, confusion_mat
 from sklearn.base import TransformerMixin, BaseEstimator
 from pyvi import ViTokenizer, ViPosTagger
 
-
 import re
 import os
 import json
+import _pickle as cPickle # to save and load model
 
-
-BASE_DIR = os.getcwd().replace("src", "")
-KEYS_2_TAG = {
-    "1": "kinh doanh",
-    "2": "thời sự",
-    "3": "thế giới",
-    "4": "thể thao",
-    "5": "pháp luật",
-    "6": "giáo dục",
-    "7": "số hóa",
-    "8": "ý kiến",
-    "9": "sức khỏe",
-    "10": "xe"
-}
-TAG_2_KEY = {
-    "kinh doanh": "1",
-    "thời sự": "2",
-    "thế giới": "3",
-    "thể thao": "4",
-    "pháp luật": "5",
-    "giáo dục": "6",
-    "số hóa": "7",
-    "ý kiến": "8",
-    "sức khỏe": "9",
-    "10": "xe"
-}
-
-
-
-stopwords = []
-
-def cleaned_text(text):
-    return text
-    text = text.lower()
-    text = " ".join(word for word in text.split() if word not in stopwords)
-    # return re.sub(r"[^a-z ]", "", text)
-    return text.replace("\n", "")
+BASE_DIR = os.getcwd()
 
 
 def get_test_data():
-    filepath = BASE_DIR + 'raw_data/test_data.json'
+    filepath = BASE_DIR + '/raw_data/test_data.json'
     with open(filepath, 'r') as f:
         return json.load(f)
 
 def get_train_data(n):
-    filepath = BASE_DIR + 'raw_data/train_data.json'
+    filepath = BASE_DIR + '/raw_data/train_data.json'
     data = []
     with open(filepath, 'r') as f:
         bf = json.load(f)
@@ -67,36 +31,46 @@ def get_train_data(n):
 
     return data
 
+# save the model
+def savemodel(sgd):
+    with open(BASE_DIR + "/model/classifier_model.pkl", "wb") as f:
+        cPickle.dump(sgd, f)
 
-def main():
-    train_data = get_train_data(1000)
+# load the model
+def loadmodel():
+    with open(BASE_DIR + "/model/classifier_model.pkl", "rb") as f:
+        return cPickle.load(f)
+    return False
+
+def train():
+    # get 10000 record from dataset
+    train_data = get_train_data(10000)
+    # init data frame
     df_train = pd.DataFrame(train_data)
-    # print(df)
-    sentences = df_train['content'].values
+
+    # extract contents and tags from data frame
+    contents = df_train['content'].values
     tags = df_train['category'].values
-    # print(tags)
-    sentences_train, sentences_test, tags_train, tags_test = train_test_split(
-         sentences, tags, test_size=0.25, random_state=1000
+
+    # init training data and data test data
+    contents_train, contents_test, tags_train, tags_test = train_test_split(
+         contents, tags, test_size=0.25, random_state=1000
     )
 
-
+    # init training engine - support vector machine
     sgd = Pipeline([
-        # ('transformer', FeatureTransformer()),
         ('vect', CountVectorizer()),
         ('tfidf', TfidfTransformer()),
         ('clf', SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, random_state=42, max_iter=5, tol=None)),
     ])
 
-    sgd.fit(sentences_train, tags_train)
+    # training...
+    sgd.fit(contents_train, tags_train)
+    
+    savemodel(sgd)
 
-    test_data = get_test_data()
-    df_test = pd.DataFrame(test_data)
-    tag_prediction = sgd.predict(df_test['content'])
-    print(tag_prediction)
-
-    # print('accuracy %s' % accuracy_score(tag_prediction, tags_test))
-    # print(len(tag_prediction), len(tags_test), len(tags))
-    # print(classification_report(tags_test, tag_prediction,target_names=tags))
+def main():
+    train()
 
 
 
