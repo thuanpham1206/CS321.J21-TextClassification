@@ -9,7 +9,7 @@ Cài đặt thư viện sk learn: https://scikit-learn.org/stable/install.html
 # Update - guideline:
 1. clone/pull code from repository:
     - git clone https://github.com/thuanpham1206/CS321.J21-TextClassification
-    - git pull https://github.com/thuanpham1206/CS321.J21-TextClassification
+    - git pull
 
 2. Install package dependencies
     - pip install -r requirements.txt
