@@ -24,7 +24,6 @@ def get_file_content(filepath):
 
 
 def main():
-    # filepath = input("File path: ")
     filepath = "test1.txt"
     res = (predict(
         get_file_content(filepath)

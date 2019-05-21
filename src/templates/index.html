@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <title>Text classification</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-light">
+        <div class="container-fluid">
+            <div class="navbar-header">
+            <a class="navbar-brand" href="/">Text classification</a>
+            </div>
+        </div>
+    </nav>
+
+    <form class="text-form" data-url="/results">
+        <div class="form-group">
+            <label for="comment">Your text:</label>
+            <textarea class="form-control" rows="10" name="content"></textarea>
+        </div>
+        <input type="submit" value="predict" class="btn btn-success">
+    </form>
+
+    <div class="results">
+        <h4>prediction results</h4>
+        <p></p>
+    </div>
+
+<style>
+    .results h4 {
+        font-family: 'Courier New', Courier, monospace;
+        color: rgb(60, 124, 1);
+    }
+ 
+    form {
+        position: relative;
+        max-width: 500px;
+        bottom:20%;
+        left: 30%;
+    }
+
+    .results {
+        position: relative;
+        left: 30%;
+        display: none;
+    }
+
+    input[type="file"] {
+    display: none;
+    }
+
+    .custom-file-upload {
+        border: 1px solid rgb(160, 160, 160);
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+    }
+</style>
+<script type="text/javascript">
+$("document").ready(function() {
+    $(".text-form").submit((e) => {
+        e.preventDefault()
+        let data = $(this).serialize()
+        let content = $(this).find('textarea').val()
+        $.ajax({
+          url: "/results",
+          method : "POST",
+          data : {content: content},
+          success : function(data){
+              console.log(data);
+            let res = data['res'].join(",")
+            console.log($("div.results").html());
+            $("div.results").show()
+            $("div.results p").text(res)
+          },
+          error: function(error){
+            return 1;
+          }
+        });
+    })
+})
+
+</script>
+</body>
+</html>

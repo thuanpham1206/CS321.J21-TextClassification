@@ -17,7 +17,10 @@ Cài đặt thư viện sk learn: https://scikit-learn.org/stable/install.html
 3. how to run?
     - Make sure you are in the root folder of project
     - run the following command: python manage.py {argument}
-    - supported arguments: train, predict
+    - supported arguments:
+        + train: training the model
+        + predict: trying predict a test file
+        + server: run server
     - example:
         + python manage.py predict
 
