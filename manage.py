@@ -9,7 +9,7 @@ name = argv[0]
 command = argv[1]
 
 def run_command(path):
-    pythoncommand = "python3 " if sys.version_info[0] < 3 else "python"
+    pythoncommand = "python3 " if sys.version_info[0] < 3 else "python "
     os.system(pythoncommand + path)
 
 if command == "train":
