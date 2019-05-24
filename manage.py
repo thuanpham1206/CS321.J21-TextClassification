@@ -25,7 +25,7 @@ def main():
         else:
             run_command("src/index.py")
         
-        return "\nExit!"
+        return "\Done!"
 
     return "command '" + command + "' not found!"
 

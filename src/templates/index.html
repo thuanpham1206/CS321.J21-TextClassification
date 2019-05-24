@@ -17,6 +17,12 @@
             </div>
         </div>
     </nav>
+    <div class="categories">
+        <h4>all categories ({{categories|length}})</h4>
+        {% for ct in categories %}
+            <span class='ct'>{{ct}}</span>
+        {% endfor %}
+    </div>
 
     <form class="text-form" data-url="/results">
         <div class="form-group">
@@ -32,15 +38,28 @@
     </div>
 
 <style>
+    .ct {
+        padding: 8px;
+        margin: 4px;
+        background-color:rgb(207, 207, 207);
+        border-radius: 5px;
+    }
+
+    div.categories {
+        position: relative;
+        left: 10%;
+        bottom: 15%;
+    }
     .results h4 {
         font-family: 'Courier New', Courier, monospace;
         color: rgb(60, 124, 1);
     }
  
     form {
+        margin-top: 20px;
         position: relative;
         max-width: 500px;
-        bottom:20%;
+        bottom:10%;
         left: 30%;
     }
 
@@ -61,6 +80,7 @@
         cursor: pointer;
     }
 </style>
+
 <script type="text/javascript">
 $("document").ready(function() {
     $(".text-form").submit((e) => {

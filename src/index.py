@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from train_md import loadmodel
+from train_md import loadmodel, get_categories
 from werkzeug.utils import secure_filename
 import os
 
@@ -16,7 +16,9 @@ def get_file_content():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template('index.html')
+    categories = get_categories()
+    print(type(categories))
+    return render_template('index.html', categories=categories)
     
 @app.route("/results", methods=["GET", "POST"])
 def results():

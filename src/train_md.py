@@ -37,7 +37,7 @@ def get_data():
 
     return {
         "data": data,
-        "categories": categories
+        "categories": list(categories)
     }
 
 # save the model
@@ -51,12 +51,22 @@ def loadmodel():
         return cPickle.load(f)
     return False
 
+def get_categories():
+    with open(os.path.join(BASE_DIR,
+        "datasource/json/cache/categories.json"), 'r') as f:
+        return json.load(f)
+    return False
+
 # train data
 def train():
     # get all records from dataset
     data = get_data()
     train_data = data['data']
-    print(len(train_data))
+    
+    # save categories set
+    with open(os.path.join(BASE_DIR,
+        "datasource/json/cache/categories.json"), 'w') as f:
+        json.dump(data['categories'], f)
 
     # init data frame
     df_train = pd.DataFrame(train_data)
@@ -86,13 +96,13 @@ def train():
         # loss='hinge': (soft-margin) linear Support Vector Machine
         # panalty='l2' is the standard regularizer for linear SVM models
         # random_state=42: to make the results be the same when re-train
-        ('clf', SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, random_state=42)),
+        ('clf', SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, random_state=42, max_iter=5)),
     ])
 
     # put train dataset into sgd
     sgd.fit(contents_train, tags_train)
 
-    savemodel(svm)
+    savemodel(sgd)
 
 def main():
     train()
