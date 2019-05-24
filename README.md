@@ -2,9 +2,6 @@
 Yêu cầu nhóm: 
 - Cài đặt pyvi và libsvm
 - Upload các dataset vào thư mực data
-Trang web để tải libsvm: https://www.csie.ntu.edu.tw/~cjlin/libsvm/#download
-Cài đặt thư viện sk learn: https://scikit-learn.org/stable/install.html
-
 
 # Update - guideline:
 1. clone/pull code from repository:
@@ -25,3 +22,6 @@ Cài đặt thư viện sk learn: https://scikit-learn.org/stable/install.html
         + python manage.py predict
 
 4. Edit test data in test1.txt (copy content from acticles of vnexpress, vietnamnet, ...)
+
+# Đánh giá độ chính xác, độ bao phủ, f scores
+Viết thêm một đoạn code để tính score

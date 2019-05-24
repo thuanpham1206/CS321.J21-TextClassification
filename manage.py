@@ -9,7 +9,7 @@ name = argv[0]
 command = argv[1]
 
 def run_command(path):
-    pythoncommand = "python3 " if sys.version_info[0] < 3 else "python3 "
+    pythoncommand = "python3 " if sys.version_info[0] < 3 else "python "
     os.system(pythoncommand + path)
 
 
@@ -21,6 +21,7 @@ def main():
         elif command == "predict":
             run_command("src/predict.py")
 
+<<<<<<< HEAD
         else:
             run_command("src/index.py")
         
@@ -30,3 +31,7 @@ def main():
 
 
 print(main())
+=======
+if command == "server":
+    run_command("src/index.py")
+>>>>>>> 51caf4ad0a44033e09c5fc471777f516068b8fd3
