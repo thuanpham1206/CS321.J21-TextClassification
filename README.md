@@ -8,7 +8,7 @@ Yêu cầu nhóm:
     - git clone https://github.com/thuanpham1206/CS321.J21-TextClassification
     - git pull
 
-2. Install package dependencies
+2. Install package dependencies (if any)
     - pip install -r requirements.txt
 
 3. how to run?
@@ -16,12 +16,10 @@ Yêu cầu nhóm:
     - run the following command: python manage.py {argument}
     - supported arguments:
         + train: training the model
-        + predict: trying predict a test file
+        + predict: trying predict a test file // not in use
         + server: run server
     - example:
-        + python manage.py predict
-
-4. Edit test data in test1.txt (copy content from acticles of vnexpress, vietnamnet, ...)
+        + python manage.py server
 
 # Đánh giá độ chính xác, độ bao phủ, f scores
 Viết thêm một đoạn code để tính score
