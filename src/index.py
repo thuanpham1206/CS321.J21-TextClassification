@@ -22,15 +22,20 @@ def index():
 def results():
     content = ""
     if request.method == "POST":
+        # Get upload file (.doc, .txt, ...)
+        # currently not in use
         if 'doc-file' in request.files:
             file = request.files['doc-file']
             content = get_file_content(file)
-            # path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename))
-            # file.save(path)
+            path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename))
+            file.save(path)
         else:
             content = request.form['content']
-            
+    
+    # load the model
     model = loadmodel()
+
+    # predict the content
     res = model.predict(
         [content]
     )

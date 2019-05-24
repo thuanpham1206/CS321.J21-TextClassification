@@ -8,10 +8,10 @@ def predict(content):
         print("Model does'nt exist!")
         return False
 
-    # Use for analytics
+    # Use for analytics, adding after
     # dataframe = pd.DataFrame({
     #     "content": content,
-    #     # "category": "Bussi"
+    #     "category": ""
     # })
 
     return model.predict([content])
@@ -21,20 +21,6 @@ def get_file_content(filepath):
     with open(filepath, 'r') as f:
         return f.read()
     return False
-
-
-def main():
-    filepath = "test1.txt"
-    res = (predict(
-        get_file_content(filepath)
-    ))
-
-    print("predicted results for :", filepath)
-    for r in res:
-        print(r)
-
-if __name__ == "__main__":
-    main()
 
 
 
