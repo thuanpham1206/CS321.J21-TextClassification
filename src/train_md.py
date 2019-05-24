@@ -17,18 +17,21 @@ BASE_DIR = os.getcwd()
 
 
 def get_test_data():
-    filepath = BASE_DIR + '/raw_data/test_data.json'
+    filepath = BASE_DIR + '/datasource/test_data.json'
     with open(filepath, 'r') as f:
         return json.load(f)
 
-def get_train_data(n):
-    filepath = BASE_DIR + '/raw_data/train_data.json'
+def get_train_data():
+    filepath = BASE_DIR + '/datasource/train_data.json'
     data = []
     with open(filepath, 'r', encoding='utf-8') as f:
         bf = json.load(f)
-        for d in bf[:n]:
+        for d in bf:
             data.append(d)
 
+    print("trained %s record" %(len(bf)))
+    categories = set([x['category'] for x in data])
+    print(categories)
     return data
 
 # save the model
@@ -44,7 +47,7 @@ def loadmodel():
 
 def train():
     # get 10000 record from dataset
-    train_data = get_train_data(10000)
+    train_data = get_train_data()
     # init data frame
     df_train = pd.DataFrame(train_data)
 
