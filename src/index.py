@@ -17,7 +17,6 @@ def get_file_content():
 @app.route("/", methods=["GET", "POST"])
 def index():
     categories = get_categories()
-    print(type(categories))
     return render_template('index.html', categories=categories)
     
 @app.route("/results", methods=["GET", "POST"])
@@ -50,4 +49,4 @@ def results():
     })
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

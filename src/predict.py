@@ -8,13 +8,17 @@ def predict(content):
         print("Model does'nt exist!")
         return False
 
-    # Use for analytics, adding after
-    # dataframe = pd.DataFrame({
-    #     "content": content,
-    #     "category": ""
-    # })
-
     return model.predict([content])
+
+
+def evaluate(test_dateset):
+    model = loadmodel()
+
+    # Use for analytics, adding after
+    dataframe = pd.DataFrame(test_dateset)
+
+    return model.predict(dataframe)
+
 
 
 def get_file_content(filepath):
