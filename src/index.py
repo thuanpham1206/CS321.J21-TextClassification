@@ -1,23 +1,20 @@
 from flask import Flask, render_template, request, jsonify
-from train_md import loadmodel, get_categories
+from train_md import loadmodel
 from werkzeug.utils import secure_filename
+from utils import chart_path, common_info
 import os
 
 
 app = Flask(__name__)
-
+TEMPLATES_AUTO_RELOAD = True
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'static/docs')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-def get_file_content():
-    pass
-
-
 @app.route("/", methods=["GET", "POST"])
 def index():
-    categories = get_categories()
-    return render_template('index.html', categories=categories)
+    info = common_info()
+    return render_template('index.html', info=info)
     
 @app.route("/results", methods=["GET", "POST"])
 def results():
@@ -27,7 +24,7 @@ def results():
         # currently not in use
         if 'doc-file' in request.files:
             file = request.files['doc-file']
-            content = get_file_content(file)
+            content = (file)
             path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename))
             file.save(path)
         else:

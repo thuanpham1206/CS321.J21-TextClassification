@@ -16,7 +16,7 @@ Yêu cầu nhóm:
     - run the following command: python manage.py {argument}
     - supported arguments:
         + train: training the model
-        + predict: trying predict a test file // not in use
+        + evl: generate precision-recall chart and save it.
         + server: run server
     - example:
         + python manage.py server

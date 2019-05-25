@@ -9,23 +9,24 @@ name = argv[0]
 command = argv[1]
 
 def run_command(path):
-    pythoncommand = "python " if sys.version_info[0] < 3 else "python3 "
-    os.system(pythoncommand + path)
+    if sys.version_info[0] < 3:
+        print("Python version must be 3\ntry python3 manage.py {argv}")
+        return
+    os.system("python3 " + path)
 
 
 def main():
-    if command in ["train", "server"]:
+    if command in ["train", "evl","server"]:
         if command == "train":
             run_command("src/train_md.py")
 
-        # not in use
-        # elif command == "predict":
-        #     run_command("src/predict.py")
+        elif command == "evl":
+            run_command("src/utils.py")
 
         else:
             run_command("src/index.py")
         
-        return "\Done!"
+        return "\nExit."
 
     return "command '" + command + "' not found!"
 
