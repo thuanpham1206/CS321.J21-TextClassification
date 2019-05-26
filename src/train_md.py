@@ -52,7 +52,8 @@ def loadmodel():
         return cPickle.load(f)
     return False
 
-def removed_stopwords(dataset):
+
+def removed_stopwords(contents):
     stopwords = []
     with open(os.path.join(BASE_DIR,
         'datasource/stopwords/stopwords.txt')) as f:
@@ -61,8 +62,11 @@ def removed_stopwords(dataset):
     # using regular expression to remove stopwords
     stopwords = re.compile(r'\b(?:%s)\b' % '|'.join(stopwords))
     
+    if (type(contents) == str):
+        return stopwords.sub('', contents)
+
     removed = []
-    for data in dataset:
+    for data in contents:
         data['content'] = stopwords.sub('', data['content'])
         removed.append(data)
 

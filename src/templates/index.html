@@ -42,21 +42,35 @@
                 <span class='ct'>{{ct}}</span>
             {% endfor %}
         </div>
-        <span class='train-info'>
-            <ul class="list-group">
-                <li class="list-group-item">Project name: Text classification</li>
-                <li class="list-group-item">Techniques: SGD, SVM, ...</li>
-                <li class="list-group-item">Libs: Scikit learn, numpy, pandas, flask, mathplotlib</li>
-                <li class="list-group-item">Training dataset size: {{info['trainsize']}}</li>
-                <li class="list-group-item">Test dataset size: {{info['testsize']}}</li>
-            </ul>
-        </span>
+        <ul class="list-group">
+            <li class="list-group-item">Project name: Text classification</li>
+            <li class="list-group-item">Algorithms: Stochastic Gradient Descent, SVM, ...</li>
+            <li class="list-group-item">Libs: Scikit learn, numpy, pandas, flask, matplotlib</li>
+            <li class="list-group-item">Training dataset size: {{info['trainsize']}}</li>
+            <li class="list-group-item">Test dataset size: {{info['testsize']}}</li>
+        </ul>
+        average probability
+        <ul class="list-group">
+            <li class="list-group-item">precision: {{info['precision']}}</li>
+            <li class="list-group-item">recall: {{info['recall']}}</li>
+            <li class="list-group-item">f1-score: {{info['fscore']}}</li>
+        </ul>
         <span class='chart'>
-            <img src="/static/images/PRchart.png">
+            <img style="display: inline" src="/static/images/PRchart.png">
+            <img src="/static/images/common.png">
         </span>
     </div>
 
 <style>
+    img {
+        width: 600px;
+    }
+    .list-group-item {
+        font-family: monospace;
+    }
+    .list-group {
+        max-width: 600px; 
+    }
     .classify-box {
         position: absolute;
         top: 20%;

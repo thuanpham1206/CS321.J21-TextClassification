@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
-from train_md import loadmodel
+from train_md import loadmodel, removed_stopwords
 from werkzeug.utils import secure_filename
-from utils import chart_path, common_info
+from utils import common_info
 import os
 
 
@@ -35,7 +35,7 @@ def results():
 
     # predict the content
     res = model.predict(
-        [content]
+        [removed_stopwords(content)]
     )
 
     if not res:
