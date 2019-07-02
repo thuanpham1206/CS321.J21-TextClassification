@@ -13,12 +13,13 @@ VALID_CMD = ["train", "evaluate","server"]
 
 def run_command(command):
     cmd_list = command.split(" ")
-    out = str(check_output(["python3", "-V"]))
-    if out and int(out[9]) == 3:
-        run(["python3"] + cmd_list)
-        return
-    
-    run(["python"] + cmd_list)
+    try:
+        out = str(check_output(["python3", "-V"]))
+        if out and int(out[9]) == 3:
+            run(["python3"] + cmd_list)
+            return
+    except:
+        run(["python"] + cmd_list)
 
 def recommend(wrong_cmd):
     for cmd in VALID_CMD:
