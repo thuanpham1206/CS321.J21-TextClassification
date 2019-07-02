@@ -1,21 +1,32 @@
-# Runtime:
-    Python's version >= 3.5.2
+# Text classification
 
-# Update - guideline:
-1. clone/pull code from repository:
+# Runtime:
+    Python version >= 3.5.2
+
+# Guideline:
+1. clone source code from repository:
     - git clone https://github.com/thuanpham1206/CS321.J21-TextClassification
-    - git pull
 
 2. Install package dependencies (if any)
     - pip install -r requirements.txt
 
-3. how to?
+3. How to run?
     - Make sure you are in the root folder of project
-    - run the following command: python manage.py {argument}
-    - supported arguments:
+    - Run the following command: python manage.py {argument}
+    - Supported arguments:
         + train: training the model
         + evaluate: generate precision-recall chart and save it.
-        + server: run server
-    - example:
+        + server: run server -> goto: localhost:5000
+    - Example:
         + python manage.py server
-        + or python3 manage.py server
+
+4. project structure:
+
+    ├── app/
+    │   ├── model/    -> contain model.pkl file
+    │   ├── source/   -> contain source code, static file,...
+    │   └── storage/  -> contain data
+    ├── report/       -> contain report file (.docx, .pdf)
+    ├── seminar       -> contain seminar file
+    └── manage.py     -> help to run code cleaner
+
