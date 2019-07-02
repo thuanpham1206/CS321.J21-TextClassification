@@ -1,9 +1,7 @@
-# CS321.J21-TextClassification
-
-## Runtime:
+# Runtime:
     Python's version >= 3.5.2
 
-## Update - guideline:
+# Update - guideline:
 1. clone/pull code from repository:
     - git clone https://github.com/thuanpham1206/CS321.J21-TextClassification
     - git pull
