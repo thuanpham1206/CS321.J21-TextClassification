@@ -23,3 +23,4 @@ Yêu cầu nhóm:
         + server: run server
     - example:
         + python manage.py server
+        + or python3 manage.py server
