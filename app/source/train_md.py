@@ -10,16 +10,18 @@ import pandas as pd
 import re
 import os
 import json
+import time
 import _pickle as cPickle # for save and load model
+import numpy as np
 
 BASE_DIR = os.getcwd()
-MODEL_DIR = "model/classifier_model.pkl"
-CACHE_DIR = "datasource/json/cache/"
+MODEL_DIR = "app/model/classifier_model.pkl"
+CACHE_DIR = "app/storage/json/cache/"
 
 def get_data():
     file_paths = [
-        "datasource/json/train/train.json",
-        "datasource/json/train/train1.json"
+        "app/storage/json/train/train.json",
+        "app/storage/json/train/train1.json"
         ]
 
     data = []
@@ -52,24 +54,25 @@ def loadmodel():
         return cPickle.load(f)
     return False
 
-
 def removed_stopwords(contents):
-    stopwords = []
+    return contents
+    stopwords = ["\n", "\r"]
     with open(os.path.join(BASE_DIR,
-        'datasource/stopwords/stopwords.txt')) as f:
+        'app/storage/stopwords/stopwords.txt')) as f:
         stopwords = [x.strip() for x in f.readlines()]
 
     # using regular expression to remove stopwords
     stopwords = re.compile(r'\b(?:%s)\b' % '|'.join(stopwords))
-    
     if (type(contents) == str):
         return stopwords.sub('', contents)
 
     removed = []
     for data in contents:
+        data['content'] = data['content'].lower()
         data['content'] = stopwords.sub('', data['content'])
         removed.append(data)
 
+    # print(removed[1])
     return removed
 
 def save_info(data):
@@ -95,7 +98,9 @@ def train():
     # extract contents and tags from data frame
     contents = df_train['content'].values
     tags = df_train['category'].values
-
+    # print(tags.count('Life'))
+    unique, counts = np.unique(tags, return_counts=True)
+    print(dict(zip(unique, counts)))
     # init training engine - using support vector machine
     # use Pipleline to sticking multiple processes into a single scikit-learn estimator
     # sgd stand for stochastic gradient descent
@@ -110,7 +115,7 @@ def train():
         # loss='hinge': (soft-margin) linear Support Vector Machine
         # panalty='l2' is the standard regularizer for linear SVM models
         # random_state=42: to make the results be the same when re-train
-        ('clf', SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, random_state=42, max_iter=5)),
+        ('clf', SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, max_iter=5)),
     ])
 
     # put train dataset into sgd
@@ -122,4 +127,7 @@ def main():
     train()
 
 if __name__ == "__main__":
+    start = time.time()
     main()
+    end = time.time()
+    print("Training time ",end - start, "seconds")

@@ -11,15 +11,12 @@ Yêu cầu nhóm:
 2. Install package dependencies (if any)
     - pip install -r requirements.txt
 
-3. how to run?
+3. how to?
     - Make sure you are in the root folder of project
     - run the following command: python manage.py {argument}
     - supported arguments:
         + train: training the model
-        + evl: generate precision-recall chart and save it.
+        + evaluate: generate precision-recall chart and save it.
         + server: run server
     - example:
         + python manage.py server
-
-# Đánh giá độ chính xác, độ bao phủ, f scores
-Viết thêm một đoạn code để tính score

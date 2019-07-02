@@ -14,8 +14,8 @@ from train_md import loadmodel, removed_stopwords
 
 def get_test_data():
     file_paths = [
-        "datasource/json/test/test.json",
-        "datasource/json/test/test1.json"
+        "app/storage/json/test/test.json",
+        "app/storage/json/test/test1.json"
         ]
 
     data = []
@@ -39,13 +39,36 @@ def predict(content):
     return model.predict([content])
 
 
+def save(file, obj):
+    with open(os.path.join(BASE_DIR, CACHE_DIR,
+            file),'w') as f:
+        for o in obj:
+            f.write(o + "\n")
+
 def _proba():
     model = loadmodel()
     test_data = removed_stopwords(get_test_data())
     df_test = pd.DataFrame(test_data)
     contents_test = df_test['content'].values
     tags_test = df_test['category'].values
+    unique, counts = np.unique(tags_test, return_counts=True)
+    print(dict(zip(unique, counts)))
     prediction = model.predict(contents_test)
+
+    count = 0
+    trues = []
+    wrongs = []
+    for i in range(451):
+        if tags_test[i] != prediction[i]:
+            count += 1
+            trues.append(tags_test[i])
+            wrongs.append(prediction[i])
+
+    unique, counts = np.unique(np.array(trues), return_counts=True)
+    print(dict(zip(unique, counts)))
+    # print(wrongs)
+    save('test_true.txt', tags_test)
+    save('test_rs_1.txt', prediction)
     return {
         "all": precision_recall_fscore_support(prediction,tags_test,
         average=None),
@@ -71,23 +94,9 @@ def chart():
     plt.title('PR chart')
     plt.plot(sorted(recall, reverse=True),
             sorted(precision))
-    plt.savefig(os.path.join(BASE_DIR, 'src/static/images/PRchart.png'))
+    plt.savefig(os.path.join(BASE_DIR, 'app/source/static/images/PRchart.png'))
 
-    # close figure
-    plt.clf()
-
-    x = range(len(categories))
-    x= range(15)
-    plt.xlabel('test samples')
-    plt.ylabel('values')
-    plt.title('common chart')
-    plt.plot(x, sorted(precision, reverse=True))
-    plt.plot(x, sorted(recall, reverse=True))
-    plt.plot(x, sorted(fscore, reverse=True))
-    plt.legend(['precision', 'recall', 'fscore'])
-
-    plt.savefig(os.path.join(BASE_DIR, 'src/static/images/common.png'))
-
+    # close figur
     # cache proba
     with open(os.path.join(BASE_DIR, CACHE_DIR,
         "proba.json"), 'w') as f:

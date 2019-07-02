@@ -2,33 +2,47 @@
 
 import sys
 import os
-
+from subprocess import run, check_output
 argv = sys.argv
 
 name = argv[0]
 command = argv[1]
 
-def run_command(path):
-    if sys.version_info[0] < 3:
-        print("Python version must be 3\ntry python3 manage.py {argv}")
-        return
-    os.system("python3 " + path)
+VALID_CMD = ["train", "evaluate","server"]
 
+
+def run_command(command):
+    cmd_list = command.split(" ")
+    out = str(check_output(["python3", "-V"]))
+    if out and int(out[9]) == 3:
+        run(["python3"] + cmd_list)
+        return
+    
+    run(["python"] + cmd_list)
+
+def recommend(wrong_cmd):
+    for cmd in VALID_CMD:
+        cmd_list = [x for x in cmd]
+        wcmd_list = [x for x in wrong_cmd]
+        if len([x for x in cmd_list if x in wcmd_list]) > 3:
+            return ("'%s' not found! Do you mean '%s'" %(wrong_cmd, cmd))
+    
+    return (wrong_cmd + " not found!\n try: 'train', 'evaluate', 'server'")
 
 def main():
-    if command in ["train", "evl","server"]:
+    if command in VALID_CMD:
         if command == "train":
-            run_command("src/train_md.py")
+            run_command("app/source/train_md.py")
 
-        elif command == "evl":
-            run_command("src/utils.py")
+        elif command == "evaluate":
+            run_command("app/source/utils.py")
 
         else:
-            run_command("src/index.py")
+            run_command("app/source/index.py")
         
         return "\nExit."
 
-    return "command '" + command + "' not found!"
+    return recommend(command)
 
 
 print(main())
