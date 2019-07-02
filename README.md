@@ -19,14 +19,13 @@
         + server: run server -> goto: localhost:5000
     - Example:
         + python manage.py server
-
-4. project structure:
-   ``` 
-    ├── app/
-    │   ├── model/    -> contain model.pkl file
-    │   ├── source/   -> contain source code, static file,...
-    │   └── storage/  -> contain data
-    ├── report/       -> contain report file (.docx, .pdf)
-    ├── seminar       -> contain seminar file
-    └── manage.py     -> help to run code cleaner
-   ```
+# Project structure:
+``` 
+├── app/
+│   ├── model/    -> contain model.pkl file
+│   ├── source/   -> contain source code, static file,...
+│   └── storage/  -> contain data
+├── report/       -> contain report file (.docx, .pdf)
+├── seminar       -> contain seminar file
+└── manage.py     -> help to run code cleaner
+```
