@@ -1,12 +1,9 @@
 # CS321.J21-TextClassification
-Yêu cầu nhóm: 
-- Cài đặt pyvi và libsvm
-- Upload các dataset vào thư mực data
 
-# Runtime:
+## Runtime:
     Python's version >= 3.5.2
 
-# Update - guideline:
+## Update - guideline:
 1. clone/pull code from repository:
     - git clone https://github.com/thuanpham1206/CS321.J21-TextClassification
     - git pull
