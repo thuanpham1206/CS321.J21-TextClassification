@@ -21,7 +21,7 @@
         + python manage.py server
 
 4. project structure:
-
+   ``` 
     ├── app/
     │   ├── model/    -> contain model.pkl file
     │   ├── source/   -> contain source code, static file,...
@@ -29,4 +29,4 @@
     ├── report/       -> contain report file (.docx, .pdf)
     ├── seminar       -> contain seminar file
     └── manage.py     -> help to run code cleaner
-
+   ```
